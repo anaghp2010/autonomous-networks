@@ -338,14 +338,14 @@ You have now completed these components:
 [Completed] JSON Lines output storage
 [Completed] Netcool output WebSocket server
 [Completed] Netcool test client
+[Completed] AI/ML correlation engine using DBSCAN
+[Completed] Isolation Forest anomaly detection
+[Completed] NetworkX multi-domain topology graph
 ```
 
 The next implementation stages are:
 
 ```
-[Next] AI/ML correlation engine using DBSCAN
-[Next] Isolation Forest anomaly detection
-[Next] NetworkX multi-domain topology graph
 [Next] Streamlit dashboard
 [Next] D3.js topology visualisation
 [Next] Metrics dashboard using Chart.js
