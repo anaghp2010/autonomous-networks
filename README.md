@@ -16,22 +16,22 @@ Create and activate a virtual environment.
 **macOS/Linux**
 
 ```bash
-**python3 -m venv .venv
-source .venv/bin/activate**
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
 **Windows PowerShell**
 
 ```powershell
-**py -m venv .venv
-.\.venv\Scripts\Activate.ps1**
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
 ```
 
 Install the required packages:
 
 ```bash
-**python -m pip install --upgrade pip
-python -m pip install faker websockets**
+python -m pip install --upgrade pip
+python -m pip install faker websockets
 ```
 
 `Faker` generates realistic synthetic alarm metadata. `websockets` creates real-time communication between components.
@@ -43,7 +43,7 @@ python -m pip install faker websockets**
 Create:
 
 ```
-**alarm_simulator.py**
+alarm_simulator.py
 ```
 
 Its responsibilities are:
@@ -58,13 +58,13 @@ Its responsibilities are:
 The simulator runs at:
 
 ```
-**ws://localhost:8765**
+ws://localhost:8765
 ```
 
 Start it using:
 
 ```
-**python alarm_simulator.py**
+python alarm_simulator.py
 ```
 
 The server output:
@@ -85,7 +85,7 @@ means:
 The simulator sends one JSON alarm event at a time. A typical event includes:
 
 ```json
-**{
+{
   "event_id": "unique-event-id",
   "storm_id": "shared-incident-id",
   "parent_alarm_id": "root-event-id",
@@ -97,7 +97,7 @@ The simulator sends one JSON alarm event at a time. A typical event includes:
   "severity": "CRITICAL",
   "message": "Radio-frequency failure detected",
   "is_anomaly": false
-}**
+}
 ```
 
 ### 3. Test the alarm simulator output
@@ -105,13 +105,13 @@ The simulator sends one JSON alarm event at a time. A typical event includes:
 Create:
 
 ```
-**test_client.py**
+test_client.py
 ```
 
 This connects to:
 
 ```
-**ws://localhost:8765**
+ws://localhost:8765
 ```
 
 and prints incoming alarms in the terminal.
@@ -119,7 +119,7 @@ and prints incoming alarms in the terminal.
 Run it in a second terminal:
 
 ```bash
-**python test_client.py**
+python test_client.py
 ```
 
 The architecture at this stage is:
@@ -144,7 +144,7 @@ The test client confirms that the simulator is producing and broadcasting alarm 
 Create:
 
 ```
-**netcool_emulator.py**
+netcool_emulator.py
 ```
 
 The Netcool emulator acts as a deterministic rule-based correlation layer.
@@ -152,7 +152,7 @@ The Netcool emulator acts as a deterministic rule-based correlation layer.
 It receives raw alarms from:
 
 ```
-**ws://localhost:8765**
+ws://localhost:8765
 ```
 
 It applies static parent-child rules, such as:
@@ -176,19 +176,19 @@ The Netcool emulator processes buffered alarms every 5 seconds, but retains pare
 Create the output directory:
 
 ```bash
-**mkdir output**
+mkdir output
 ```
 
 Start the simulator first:
 
 ```bash
-**python alarm_simulator.py**
+python alarm_simulator.py
 ```
 
 Then start the Netcool emulator in a second terminal:
 
 ```bash
-**python netcool_emulator.py**
+python netcool_emulator.py
 ```
 
 The Netcool emulator:
@@ -204,7 +204,7 @@ The Netcool emulator:
 It exposes its own WebSocket endpoint:
 
 ```
-**ws://localhost:8766**
+ws://localhost:8766
 ```
 
 The full pipeline is now:
@@ -260,13 +260,13 @@ Example output:
 Create:
 
 ```
-**netcool_test_client.py**
+netcool_test_client.py
 ```
 
 This connects to:
 
 ```
-**ws://localhost:8766**
+ws://localhost:8766
 ```
 
 Run it in a third terminal:
@@ -292,32 +292,32 @@ This confirms that the static rule engine is working.
 The Netcool emulator creates:
 
 ```
-**output/netcool_events.jsonl**
+output/netcool_events.jsonl
 ```
 
 **macOS/Linux**
 
 ```bash
-**cat output/netcool_events.jsonl**
+cat output/netcool_events.jsonl
 ```
 
 **Windows PowerShell**
 
 ```powershell
-**Get-Content output\netcool_events.jsonl**
+Get-Content output\netcool_events.jsonl
 ```
 
 Load it later using pandas:
 
 ```python
-**import pandas as pd
+import pandas as pd
 
 df = pd.read_json(
     "output/netcool_events.jsonl",
     lines=True
 )
 
-print(df.head())**
+print(df.head())
 ```
 
 ---
